@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'bashman'
+
+chatter = Bashman::Chatter.new
+chatter.say_hello
+
