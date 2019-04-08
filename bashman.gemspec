@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["drbayer@eternalstench.com"]
 
   spec.summary       = %q{Bash Profile Manager}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.description   = %q{Record bash profile files and settings}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -35,4 +35,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  #spec.add_runtime_dependency "optparse"
+  spec.add_runtime_dependency "json"
+  spec.add_runtime_dependency "parseconfig"
 end

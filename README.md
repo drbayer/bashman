@@ -1,38 +1,52 @@
 # Bashman
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bashman`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'bashman'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install bashman
+A Ruby gem and executable for *nix profile backup.
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem includes the `bashman` executable for managing profiles. 
+
+```
+$ bashman -h
+Usage: bashman [OPTIONS]
+
+    -a, --apply                      Apply saved profile
+    -i, --items homebrew,shell       Shell components to apply or save. Defaults to 'all'.
+    -p, --profile PROFILE            Profile name. Set to 'default' if not specified.
+    -s, --save                       Save profile settings.
+    -v, --verbose                    Turn on verbose messages.
+    -V, --version                    Show version
+    -y, --yes                        Do not ask for confirmation
+    -h, --help                       Show this help message
+ ```
+
+For script development, the gem provides the following classes:
+|Class Name|Purpose|
+|---|---|
+|Profile|Overall user profile container|
+|Profile::HomeBrew|Homebrew information for Mac users|
+|Profile::Shell|General shell items like .profile, .bashrc, etc.|
+
+## Configuration
+Bashman looks for the `~/.bashman/config` file for configuration information. At present the only configuration is for `[shell]` and controls which shell files to include/exclude from the profile backup. Useful for limiting backup to desired configuration items and omitting sensitive and/or unnecessary components like SSH keys.
+
+```
+[shell]
+    exclude = .vim/bundle
+    include = .bash*, .git* .irb*, .iterm2*, .profile*, .vim*
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+This is still in very early stages of development and is likely to be buggy. 
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+This was built as a learning experience that results in something useful at least to me. Because of this I'm sure there is a lot missing that should probably be included, not the least of which would be code tests. If all goes well that will be included in the not too distant future. 
+
+There are plans for adding more functionality, including applying saved profiles back to the current user. 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bashman.
+Bug reports and pull requests are welcome on GitHub at https://github.com/drbayer/bashman.
 
 ## License
 

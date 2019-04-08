@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+require 'bashman'
+require 'optparse'
+
+options = {
+    apply:      false,
+    items:      ['all'],
+    profile:    'default',
+    save:       false,
+    savedir:    '~/.bashman/profiles',
+    verbose:    false,
+    yes:        false
+}
+
+all_items = ['homebrew', 'shell']
+
+opts = OptionParser.new do |o|
+    o.banner = "Usage: #{$0} [OPTIONS]"
+    o.separator ""
+    o.on("-a", "--apply", "Apply saved profile") {|v| options[:apply] = v}
+    o.on("-i", "--items #{all_items.join(',')}", Array, "Shell components to apply or save. Defaults to 'all'.") {|v| options[:items] = v}
+    o.on("-p", "--profile PROFILE", "Profile name. Set to 'default' if not specified.") {|v| options[:profile] = v}
+    o.on("-s", "--save", "Save profile settings.") {|v| options[:save] = v}
+    o.on("-v", "--verbose", "Turn on verbose messages.") {|v| options[:verbose] = v}
+    o.on("-V", "--version", "Show version") do 
+        puts Bashman.version
+        exit
+    end
+    o.on("-y", "--yes", "Do not ask for confirmation") {|v| options[:yes] = v}
+    o.on_tail("-h", "--help", "Show this help message") do
+        puts o
+        exit
+    end
+end
+
+begin
+    opts.parse! ARGV
+    raise OptionParser::MissingArgument, 'PROFILE' if options[:profile].nil?
+    raise OptionParser::InvalidOption, "Exactly one of (--apply, --save) required." if options[:apply] == options[:save]
+
+    options[:items] = all_items if options[:items] == ['all']
+    items = options[:items].dup
+    n = items.count
+    1.upto(n) do 
+        item = items.pop
+        if items.include?(item) or not all_items.include?(item)
+            raise OptionParser::InvalidArgument, 'ITEMS'
+        end
+    end
+rescue => arg_err
+    puts "#{arg_err.message}"
+    puts opts
+    exit
+end
+
+
+profile = Profile.new
+
+### Save profile
+
+if options[:save] then 
+    if options[:items].include?('homebrew')
+        profile.add_homebrew(options[:verbose])
+    end
+
+    if options[:items].include?('shell')
+        profile.add_shell(options[:verbose])
+    end
+
+    if not options[:yes] then
+        puts "Record profile? [Y/n]  "
+        resp = gets.strip.downcase
+        options[:yes] = true if ['y', 'yes', ''].include?(resp)
+    end
+
+    if options[:yes]
+        profile.save(options[:savedir], options[:overwrite], options[:verbose])
+    end
+end
+
+
