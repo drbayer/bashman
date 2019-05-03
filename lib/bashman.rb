@@ -110,7 +110,7 @@ class Profile < JSONable
         end
     end
 
-    def save(dir = '~/.bashman/profiles', overwrite = false, verbose = false)
+    def save(dir = '~/.bashman/profiles', profile_name = 'default', overwrite = false, verbose = false)
         dir = File.expand_path(dir)
         FileUtils.mkdir_p(dir) if not Dir.exists?(dir)
 
@@ -119,7 +119,7 @@ class Profile < JSONable
         @timestamp = Time.now.to_i
 
         # get timestamp from manifest in the event we need to back up files
-        manifest = "#{dir}/#{name}.json"
+        manifest = "#{dir}/#{profile_name}.json"
         puts "Saving manifest file #{manifest}" if verbose
         timestamp = nil
         if not overwrite
@@ -136,7 +136,7 @@ class Profile < JSONable
         # now save shell files and write manifest
         if instance_variable_defined?("@shell")
             shell = @shell.to_hash 
-            @shell.save_dotfiles("#{dir}/#{name}.tar.gz", timestamp, overwrite)
+            @shell.save_dotfiles("#{dir}/#{profile_name}.tar.gz", timestamp, overwrite)
             @shell = shell
         end
 

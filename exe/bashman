@@ -75,7 +75,7 @@ if options[:save] then
     end
 
     if options[:yes]
-        profile.save(options[:savedir], options[:overwrite], options[:verbose])
+        profile.save(options[:savedir], options[:profile], options[:overwrite], options[:verbose])
     end
 end
 
