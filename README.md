@@ -1,6 +1,6 @@
 # Bashman
 
-A Ruby gem and executable for *nix profile backup.
+A Ruby gem and executable for \*nix profile backup.
 
 ## Usage
 
@@ -21,6 +21,7 @@ Usage: bashman [OPTIONS]
  ```
 
 For script development, the gem provides the following classes:
+
 |Class Name|Purpose|
 |---|---|
 |Profile|Overall user profile container|
