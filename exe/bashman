@@ -18,7 +18,7 @@ all_items = ['homebrew', 'shell']
 opts = OptionParser.new do |o|
     o.banner = "Usage: #{$0} [OPTIONS]"
     o.separator ""
-    o.on("-a", "--apply", "Apply saved profile") {|v| options[:apply] = v}
+    #o.on("-a", "--apply", "Apply saved profile") {|v| options[:apply] = v}
     o.on("-i", "--items #{all_items.join(',')}", Array, "Shell components to apply or save. Defaults to 'all'.") {|v| options[:items] = v}
     o.on("-p", "--profile PROFILE", "Profile name. Set to 'default' if not specified.") {|v| options[:profile] = v}
     o.on("-s", "--save", "Save profile settings.") {|v| options[:save] = v}
